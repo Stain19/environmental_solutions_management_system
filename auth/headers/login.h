@@ -8,12 +8,12 @@
 
 // Function declarations
 void hashearSenha(const char* senha, char* senhaHasheada);
-bool validarCredenciais(const char* nomeUsuario, const char* senha);
+bool validarCredenciais(const char* nomeUsuario, const char* senha, sqlite3*db);
 void exibirTelaLogin();
 void recarregarTelaLogin();
 void limparTelaLogin();
 void exibirMensagemErro(const char* mensagem);
 void limparMensagemErro();
-void iniciarLogin();
+void iniciarLogin(bool* terminarPrograma, sqlite3* db);
 
 #endif
