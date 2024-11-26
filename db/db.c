@@ -350,6 +350,99 @@ int listarIndustrias(sqlite3 *db)
     return SQLITE_OK;
 }
 
+int consultarEmpresasPorEstado(sqlite3 *db) {
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT Estado, SUM(ValorEstimadoCusto) AS CustoTotal "
+                      "FROM Industrias "
+                      "JOIN InsumosTratados ON Industrias.Id = InsumosTratados.IndustriaId "
+                      "GROUP BY Estado;";
+
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Erro ao preparar consulta: %s\n", sqlite3_errmsg(db));
+        return rc;
+    }
+
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
+        printf("Estado: %s\n", sqlite3_column_text(stmt, 0));
+        printf("Custo Total: %.2f\n", sqlite3_column_double(stmt, 1));
+        printf("----------------------------------------\n");
+    }
+
+    sqlite3_finalize(stmt);
+    return SQLITE_OK;
+}
+
+int consultarRankingIndustriaPorInsumos(sqlite3 *db) {
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT NomeEmpresa, SUM(QuantidadeResiduo) AS TotalResiduos "
+                      "FROM Industrias "
+                      "JOIN InsumosTratados ON Industrias.Id = InsumosTratados.IndustriaId "
+                      "GROUP BY NomeEmpresa "
+                      "ORDER BY TotalResiduos ASC;";
+
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Erro ao preparar consulta: %s\n", sqlite3_errmsg(db));
+        return rc;
+    }
+
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
+        printf("Nome da Empresa: %s\n", sqlite3_column_text(stmt, 0));
+        printf("Total de Resíduos: %.2f\n", sqlite3_column_double(stmt, 1));
+        printf("----------------------------------------\n");
+    }
+
+    sqlite3_finalize(stmt);
+    return SQLITE_OK;
+}
+
+int consultarCustoTotalPorEmpresa(sqlite3 *db) {
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT NomeEmpresa, SUM(ValorEstimadoCusto) AS CustoTotal "
+                      "FROM Industrias "
+                      "JOIN InsumosTratados ON Industrias.Id = InsumosTratados.IndustriaId "
+                      "GROUP BY NomeEmpresa;";
+
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Erro ao preparar consulta: %s\n", sqlite3_errmsg(db));
+        return rc;
+    }
+
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
+        printf("Nome da Empresa: %s\n", sqlite3_column_text(stmt, 0));
+        printf("Custo Total: %.2f\n", sqlite3_column_double(stmt, 1));
+        printf("----------------------------------------\n");
+    }
+
+    sqlite3_finalize(stmt);
+    return SQLITE_OK;
+}
+
+int consultarTotalInsumosPorEmpresa(sqlite3 *db) {
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT NomeEmpresa, SUM(QuantidadeResiduo) AS TotalResiduos "
+                      "FROM Industrias "
+                      "JOIN InsumosTratados ON Industrias.Id = InsumosTratados.IndustriaId "
+                      "GROUP BY NomeEmpresa;";
+
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Erro ao preparar consulta: %s\n", sqlite3_errmsg(db));
+        return rc;
+    }
+
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
+        printf("Nome da Empresa: %s\n", sqlite3_column_text(stmt, 0));
+        printf("Total de Resíduos: %.2f\n", sqlite3_column_double(stmt, 1));
+        printf("----------------------------------------\n");
+    }
+
+    sqlite3_finalize(stmt);
+    return SQLITE_OK;
+}
+
 void fecharConexaoDb(sqlite3 *db)
 {
     sqlite3_close(db);

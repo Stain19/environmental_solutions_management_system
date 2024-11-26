@@ -42,8 +42,8 @@ typedef enum {
     SERGIPE,
     TOCANTINS
 } EstadoBrasil;
-const char* obterSiglaEstado(EstadoBrasil estado);
 
+const char* obterSiglaEstado(EstadoBrasil estado);
 int validarSiglaEstado(const char* sigla);
 
 typedef struct
@@ -92,6 +92,10 @@ int listarIndustrias(sqlite3 *db);
 int criarTabelaDeInsumosTratados(sqlite3 *db);
 int inserirInsumoTratado(sqlite3 *db, InsumoTratado *insumoTratado);
 int listarInsumosTratadosPorIdDaIndustria(sqlite3 *db);
+int consultarEmpresasPorEstado(sqlite3 *db);
+int consultarRankingIndustriaPorInsumos(sqlite3 *db);
+int consultarCustoTotalPorEmpresa(sqlite3 *db);
+int consultarTotalInsumosPorEmpresa(sqlite3 *db);
 void fecharConexaoDb(sqlite3* db);
 
 #endif // DB_H

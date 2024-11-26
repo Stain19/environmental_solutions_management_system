@@ -14,14 +14,18 @@ int telaMenuRelatorios(sqlite3 *db);
  * @brief Exibe o menu de relatórios globais.
  *
  * Esta função exibe o menu de relatórios globais e lida com as interações do usuário.
+ *
+ * @param db Ponteiro para a conexão do banco de dados SQLite.
  */
-void telaRelatoriosGlobais();
+void telaRelatoriosGlobais(sqlite3 *db);
 
 /**
  * @brief Exibe o menu de relatórios por empresa.
  *
  * Esta função exibe o menu de relatórios por empresa e lida com as interações do usuário.
+ *
+ * @param db Ponteiro para a conexão do banco de dados SQLite.
  */
-void telaRelatoriosPorEmpresa();
+void telaRelatoriosPorEmpresa(sqlite3 *db);
 
 #endif // TELA_MENU_RELATORIOS_H
